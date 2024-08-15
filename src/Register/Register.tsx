@@ -12,19 +12,25 @@ const Register = () => {
             const dataobj = {
                 "data": data
             }
-            const res = await fetch("http://localhost:2020/std/register", {
+            const res = await fetch("https://etoe1-server.vercel.app/std/register", {
                 method: "post",
                 headers: {
                     'Content-Type': "application/json"
                 },
                 body: JSON.stringify(dataobj)
             })
-            const result=await res.json()
-            console.log(result)
-        }catch(ex){
+            const result = await res.json()
+            const { acknowledged, insertedId } = result
+         if(acknowledged && insertedId ){
+            alert("success")
+         }else{
+            alert("failed!")
+         }
+        } catch (ex:any) {
             console.error(ex)
+            alert(ex.message)
         }
-        
+
     }
     return (
         <div>

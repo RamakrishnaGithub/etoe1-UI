@@ -1,7 +1,10 @@
 "use client"
+import { Ajax } from '@/services/ajax'
 import React, { useState } from 'react'
+import { useDispatch, UseDispatch } from 'react-redux'
 
 const Register = () => {
+    const dispatch=useDispatch()
     const [data, setData] = useState({})
     const fnChange = (eve: any) => {
         const { name, value } = eve.target
@@ -12,16 +15,12 @@ const Register = () => {
             const dataobj = {
                 "data": data
             }
-            const res = await fetch("https://etoe1-server.vercel.app/std/register", {
-                method: "post",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify(dataobj)
-            })
-            const result = await res.json()
-            const { acknowledged, insertedId } = result
+            dispatch({type:"LOADER",payload:true})
+
+           const res=await Ajax.sendPostReq("std/register",dataobj)           
+            const { acknowledged, insertedId } = res?.data
          if(acknowledged && insertedId ){
+            dispatch({type:"GET_STUDENT"})
             alert("success")
          }else{
             alert("failed!")
@@ -29,6 +28,8 @@ const Register = () => {
         } catch (ex:any) {
             console.error(ex)
             alert(ex.message)
+        }finally{
+            dispatch({type:"LOADER",payload:false})
         }
 
     }

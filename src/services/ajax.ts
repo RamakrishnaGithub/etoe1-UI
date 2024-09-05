@@ -1,6 +1,6 @@
 "use client"
 import axios from "axios";
-const BASE_URL = "http://localhost:2020/"
+const BASE_URL = "https://etoe1-server.vercel.app/"
 
 if (typeof window !== "undefined") {
   // Add a request interceptor
